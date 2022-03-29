@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -22,12 +23,9 @@ public class Gameplay {
     @Column(name = "id")
     private Long id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "gameplay_players",
-            joinColumns = @JoinColumn(name = "gameplay_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id"))
-    private List<Player> players;
+    @OneToMany(cascade = CascadeType.ALL,
+        mappedBy = "gameplay")
+    private List<GameplayPlayer> gameplayPlayerList;
 
     @OneToOne
     @JoinColumn(name = "game_id")
@@ -36,4 +34,10 @@ public class Gameplay {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_result_id")
     private GameResult result;
+
+    public List<Player> getPlayers() {
+        return gameplayPlayerList.stream()
+                .map(GameplayPlayer::getPlayer)
+                .collect(Collectors.toList());
+    }
 }
