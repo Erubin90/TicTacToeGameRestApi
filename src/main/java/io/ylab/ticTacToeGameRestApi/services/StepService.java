@@ -1,8 +1,9 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
-import io.ylab.ticTacToeGameRestApi.entities.Step;
+import io.ylab.ticTacToeGameRestApi.objects.Board;
+import io.ylab.ticTacToeGameRestApi.objects.json.StepJson;
 
 public interface StepService {
 
-    Step addStep(Step stepRequest);
+    Board addStep(StepJson request);
 }

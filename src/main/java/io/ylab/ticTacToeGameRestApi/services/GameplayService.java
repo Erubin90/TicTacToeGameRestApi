@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
 import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
-import io.ylab.ticTacToeGameRestApi.objects.requests.GameplayRequest;
+import io.ylab.ticTacToeGameRestApi.objects.json.GameplayJson;
 
 import java.util.List;
 
@@ -11,8 +11,10 @@ public interface GameplayService {
 
     List<Gameplay> getAllGameplayByPlayerId(Long playerId);
 
-    Gameplay createGameplay(GameplayRequest request);
+    Gameplay createGameplay(GameplayJson request);
 
-    Gameplay addPlayer(GameplayRequest request);
+    Gameplay save(Gameplay gameplay);
+
+    Gameplay addPlayer(GameplayJson request);
 
 }
