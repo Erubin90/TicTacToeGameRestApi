@@ -16,7 +16,7 @@ public class PlayerServiceImp implements PlayerService {
     @Override
     public Player getPlayer(Long id) {
         var optional = repository.findById(id);
-        var player = optional.orElseThrow(() -> new InvalidValueException("invalid id"));
+        var player = optional.orElseThrow(() -> new InvalidValueException("invalid playerId"));
         return player;
     }
 
