@@ -1,6 +1,5 @@
 package io.ylab.ticTacToeGameRestApi.entities;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +20,19 @@ public class Step {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "move")
-    private Integer move;
+    @Column(name = "num")
+    private Integer num;
 
     @Column(name = "symbol")
     private String symbol;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "column")
+    private Integer column;
+
+    @Column(name = "line")
+    private Integer row;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
     private Player player;
 
