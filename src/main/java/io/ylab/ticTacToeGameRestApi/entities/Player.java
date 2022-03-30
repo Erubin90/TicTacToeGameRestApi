@@ -31,4 +31,8 @@ public class Player {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "player")
     private List<GameplayPlayer> gameplayList;
+
+    public Player(String name) {
+        this.name = name;
+    }
 }

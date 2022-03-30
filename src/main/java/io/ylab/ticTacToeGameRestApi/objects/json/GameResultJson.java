@@ -8,9 +8,11 @@ import io.ylab.ticTacToeGameRestApi.objects.enums.StepResult;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "winPlayer"})
 public class GameResultJson {

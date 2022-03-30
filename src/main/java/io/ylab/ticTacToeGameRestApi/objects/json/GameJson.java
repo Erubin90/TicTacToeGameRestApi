@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @JsonPropertyOrder({"id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
 public class GameJson {
 
+    @Setter
     @JsonProperty("id")
     private Long id;
 
