@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorType {
     INVALID_VALUE(1),
-    INVALID_EXECUTION(2);
+    INVALID_EXECUTION(2),
+    DONT_MACH_VALUE(3);
 
     private final int code;
 }
