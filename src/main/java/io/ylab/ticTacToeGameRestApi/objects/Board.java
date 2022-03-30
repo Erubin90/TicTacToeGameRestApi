@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.ylab.ticTacToeGameRestApi.entities.Player;
 import io.ylab.ticTacToeGameRestApi.entities.Step;
 import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.objects.enums.StepResult;
+import io.ylab.ticTacToeGameRestApi.objects.json.PlayerJson;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -28,11 +29,18 @@ public class Board {
 
     @Getter
     @JsonProperty("winPlayer")
-    private Player winPlayer;
+    private PlayerJson winPlayer;
 
     public Board(int boardSize, int amountSymbolLine) {
         this.matrix = new char[boardSize][boardSize];
         this.amountSymbolLine = amountSymbolLine;
+    }
+
+    public char[][] getMatrix() {
+        var newMatrix = new char[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++)
+            newMatrix[i] = Arrays.copyOf(matrix[i], matrix.length);
+        return newMatrix;
     }
 
     public void addStep(Step step) {
@@ -46,7 +54,7 @@ public class Board {
             throw new InvalidValueException("column or row invalid value");
         stepResult = checkForVictory(step);
         if (stepResult == StepResult.WIN)
-            winPlayer = step.getPlayer();
+            winPlayer = new PlayerJson(step.getPlayer());
     }
 
     public void addAllStep(List<Step> steps) {
@@ -55,7 +63,7 @@ public class Board {
         }
     }
 
-    private StepResult checkForVictory(Step step) {
+    public StepResult checkForVictory(Step step) {
         int boardSize = matrix.length;
         char playerSymbol = step.getSymbol().charAt(0);
         var resultGame = StepResult.NEXT_MOVE;
@@ -110,12 +118,18 @@ public class Board {
         }
         //Если количество выигравших символов меньше размера доски
         else {
-            int count = boardSize - amountSymbolLine + 1;
-            for (int x = 0; x < count; x++) {
-                for (int c = 0; c < count; c++) {
-                    for (int i = c; i < amountSymbolLine + c; i++) {
-                        int row = i + x;
-                        int[] diagonalsPoint = checkDiagonals(boardSize, i, row, playerSymbol, leftDiagonal, rightDiagonal);
+            int countDiagonal = boardSize % 2 == 0 ? boardSize - 1 : boardSize;
+            int middleDiagonal = countDiagonal / 2 + 1;
+            for (int length = 1; length <= countDiagonal; length++) {
+                boolean flag = length <= middleDiagonal;
+                int depth = flag ? length : middleDiagonal * 2 - length;
+                int i = flag ? 0 : length - middleDiagonal;
+                int j = flag ? middleDiagonal - length : 0;
+                for (int x = 0; x < depth; x++) {
+                    for (int num = 0; num < amountSymbolLine; num++) {
+                        int row = i + num;
+                        int col = j + num;
+                        int[] diagonalsPoint = checkDiagonals(boardSize, row, col, playerSymbol, leftDiagonal, rightDiagonal);
                         leftDiagonal = diagonalsPoint[0];
                         rightDiagonal = diagonalsPoint[1];
                         if (leftDiagonal == 0 || rightDiagonal == 0) {
@@ -123,13 +137,16 @@ public class Board {
                             return resultGame;
                         }
                     }
+                    i++;
+                    j++;
                 }
             }
+
         }
         return resultGame;
     }
 
-    private int[] checkDiagonals(int boardSize, int col, int row, char playerSymbol, int leftDiagonal, int rightDiagonal) {
+    private int[] checkDiagonals(int boardSize, int row, int col, char playerSymbol, int leftDiagonal, int rightDiagonal) {
         //проверка по левой диагонали
         char leftDiagonalSymbol = matrix[row][col];
         if (leftDiagonalSymbol == playerSymbol)
