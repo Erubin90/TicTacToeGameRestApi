@@ -2,13 +2,13 @@ package io.ylab.ticTacToeGameRestApi.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.ylab.ticTacToeGameRestApi.objects.enums.ErrorType;
 import lombok.*;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonPropertyOrder(value = {"message", "errorCode"})
 public class Response<T> {
 
@@ -20,5 +20,10 @@ public class Response<T> {
 
     public Response(T message) {
         this.message = message;
+    }
+
+    public Response(T message, ErrorType errorType) {
+        this.message = message;
+        this.error = errorType.getCode();
     }
 }
