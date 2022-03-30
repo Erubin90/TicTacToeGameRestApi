@@ -41,6 +41,7 @@ public class GameplayJson {
     }
 
     public void setGameplay(Gameplay gameplay) {
+        this.id = gameplay.getId();
         var gameplayPlayerList = gameplay.getGameplayPlayerList();
         if (gameplayPlayerList != null) {
             this.players = gameplayPlayerList
@@ -50,5 +51,6 @@ public class GameplayJson {
         }
         this.game = new GameJson(gameplay.getGame());
         this.gameResult = new GameResultJson(gameplay.getResult());
+        this.symbol = null;
     }
 }

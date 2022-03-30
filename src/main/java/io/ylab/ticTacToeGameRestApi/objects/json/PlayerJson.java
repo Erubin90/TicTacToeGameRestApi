@@ -40,8 +40,10 @@ public class PlayerJson {
 
     @JsonIgnore
     public void setPlayer(Player player) {
-        this.id = player.getId();
-        this.name = player.getName();
+        if (player != null) {
+            this.id = player.getId();
+            this.name = player.getName();
+        }
     }
 
     @JsonIgnore

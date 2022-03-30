@@ -1,5 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.objects.json;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Getter
 @ToString
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
 public class GameJson {
 
