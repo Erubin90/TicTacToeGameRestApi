@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.ylab.ticTacToeGameRestApi.entities.Player;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,6 +24,11 @@ public class PlayerJson {
 
     @JsonProperty("symbol")
     private String symbol;
+
+    public PlayerJson(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @JsonIgnore
     public PlayerJson(Player player) {
