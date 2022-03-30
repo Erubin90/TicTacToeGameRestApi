@@ -59,7 +59,7 @@ public class StepServiceImp implements StepService {
             throw new DontMachValueException("the passed values [playerId, gameplayId, gameId] do not match");
         //Проверка на заполненность таблицы
         var stepList = game.getSteps();
-        int moveNumber = stepList.size();
+        int moveNumber = stepList.size() + 1;
         int bordSize = game.getBordSize();
         if (bordSize * bordSize < moveNumber)
             throw new InvalidExecutionException("The board is completely filled");
@@ -78,9 +78,6 @@ public class StepServiceImp implements StepService {
         step.setSymbol(playerSymbol);
         step.setColumn(column);
         step.setRow(row);
-
-        //Сохраняем step в бд
-        step = stepRepository.save(step);
         stepList.add(step);
 
         //Проверяем является ли ход выигрышным
@@ -89,8 +86,12 @@ public class StepServiceImp implements StepService {
         board.addAllStep(stepList);
         var stepResult = board.getStepResult();
 
+        //Сохраняем step в бд
+        stepRepository.save(step);
+
+        //Создам GameResult
         if (stepResult == StepResult.WIN || stepResult == StepResult.DRAW) {
-            gameResultService.create(board.getWinPlayer());
+            gameResultService.create(board.getWinPlayer().getPlayer());
             gameplayService.save(gameplay);
         }
         return board;
