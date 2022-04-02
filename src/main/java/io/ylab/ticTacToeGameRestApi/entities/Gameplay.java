@@ -40,4 +40,8 @@ public class Gameplay {
                 .map(GameplayPlayer::getPlayer)
                 .collect(Collectors.toList());
     }
+
+    public Gameplay(Game game) {
+        this.game = game;
+    }
 }
