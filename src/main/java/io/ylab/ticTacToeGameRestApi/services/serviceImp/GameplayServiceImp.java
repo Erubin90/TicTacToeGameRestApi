@@ -2,8 +2,9 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.entities.GameplayPlayer;
-import io.ylab.ticTacToeGameRestApi.repositories.GameRepository;
 import io.ylab.ticTacToeGameRestApi.repositories.GameplayPlayerRepository;
+import io.ylab.ticTacToeGameRestApi.services.GameService;
+import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
 import io.ylab.ticTacToeGameRestApi.utils.Check;
 import io.ylab.ticTacToeGameRestApi.entities.Game;
 import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
@@ -14,6 +15,7 @@ import io.ylab.ticTacToeGameRestApi.repositories.GameplayRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;
 import io.ylab.ticTacToeGameRestApi.utils.Message;
+import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class GameplayServiceImp implements GameplayService {
 
     private final GameplayRepository gameplayRepository;
     private final PlayerService playerService;
-    private final GameRepository gameRepository;
+    private final GameService gameService;
+    private final GameStatusService gameStatusService;
     private final GameplayPlayerRepository gameplayPlayerRepository;
 
     @Override
@@ -65,29 +68,25 @@ public class GameplayServiceImp implements GameplayService {
         Check.isNull(amountSymbolLine, "amountSymbolLine");
         Check.isNull(typeGame, "typeGame");
 
-        var game = new Game(bordSize, amountSymbolLine, typeGame);
-        var saveGame = gameRepository.save(game);
-
-        var gameplay = new Gameplay();
-        gameplay.setGame(saveGame);
-        var saveGameplay = save(gameplay);
-
         var player = playerService.getPlayer(playerId);
-
+        var game = new Game(bordSize, amountSymbolLine, typeGame);
         var gameplayPlayer = new GameplayPlayer();
         gameplayPlayer.setPlayer(player);
-        gameplayPlayer.setGameplay(saveGameplay);
         gameplayPlayer.setSymbol(symbol);
         gameplayPlayer.setNum(1);
-        gameplayPlayerRepository.save(gameplayPlayer);
 
+        var saveGame = this.gameService.save(game);
+        var gameplay = new Gameplay(saveGame);
+        var saveGameplay = save(gameplay);
+        gameplayPlayer.setGameplay(saveGameplay);
+        gameplayPlayerRepository.save(gameplayPlayer);
+        gameStatusService.createGameStatus(saveGame, GameStatuses.START_GAME);
         return saveGameplay;
     }
 
     @Override
     public Gameplay save(Gameplay gameplay) {
-        var saveGameplay = gameplayRepository.save(gameplay);
-        return saveGameplay;
+        return gameplayRepository.save(gameplay);
     }
 
     @Override
