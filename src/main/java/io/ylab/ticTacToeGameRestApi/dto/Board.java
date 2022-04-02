@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.ylab.ticTacToeGameRestApi.utils.enums.Result;
+import io.ylab.ticTacToeGameRestApi.utils.enums.StepResult;
 import io.ylab.ticTacToeGameRestApi.entities.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Board {
 
     @Getter
     @JsonProperty("stepResult")
-    private Result result;
+    private StepResult stepResult;
 
     @Getter
     @JsonProperty("winPlayer")
@@ -42,7 +42,7 @@ public class Board {
         return newMatrix;
     }
 
-    public Result addStep(Step step) {
+    public StepResult addStep(Step step) {
         int row = step.getRow();
         int col = step.getColumn();
         char symbol = step.getSymbol().charAt(0);
@@ -51,25 +51,25 @@ public class Board {
             matrix[row][col] = symbol;
         else
             throw new InvalidValueException("column or row invalid value");
-        result = checkForVictory(step);
-        if (result == Result.WIN)
+        stepResult = checkForVictory(step);
+        if (stepResult == StepResult.WIN)
             winPlayer = new PlayerDto(step.getPlayer());
-        return result;
+        return stepResult;
     }
 
-    public Result addAllStep(List<Step> steps) {
+    public StepResult addAllStep(List<Step> steps) {
         for (var step : steps) {
-            result = addStep(step);
-            if (result == Result.WIN)
+            stepResult = addStep(step);
+            if (stepResult == StepResult.WIN)
                 break;
         }
-        return result;
+        return stepResult;
     }
 
-    public Result checkForVictory(Step step) {
+    public StepResult checkForVictory(Step step) {
         int boardSize = matrix.length;
         char playerSymbol = step.getSymbol().charAt(0);
-        var resultGame = Result.NEXT_MOVE;
+        var resultGame = StepResult.NEXT_MOVE;
 
         int numberEmptySeats = boardSize * boardSize;
 
@@ -91,14 +91,14 @@ public class Board {
                 else
                     vertical = amountSymbolLine;
                 if (horizon == 0 || vertical == 0) {
-                    resultGame = Result.WIN;
+                    resultGame = StepResult.WIN;
                     return resultGame;
                 }
                 //Проверка на ничью
                 if (horizonSymbol != 0)
                     numberEmptySeats--;
                 if (numberEmptySeats == 0) {
-                    resultGame = Result.DRAW;
+                    resultGame = StepResult.DRAW;
                     return resultGame;
                 }
             }
@@ -114,7 +114,7 @@ public class Board {
                 leftDiagonal = diagonalsPoint[0];
                 rightDiagonal = diagonalsPoint[1];
                 if (leftDiagonal == 0 || rightDiagonal == 0) {
-                    resultGame = Result.WIN;
+                    resultGame = StepResult.WIN;
                     return resultGame;
                 }
             }
@@ -136,7 +136,7 @@ public class Board {
                         leftDiagonal = diagonalsPoint[0];
                         rightDiagonal = diagonalsPoint[1];
                         if (leftDiagonal == 0 || rightDiagonal == 0) {
-                            resultGame = Result.WIN;
+                            resultGame = StepResult.WIN;
                             return resultGame;
                         }
                     }

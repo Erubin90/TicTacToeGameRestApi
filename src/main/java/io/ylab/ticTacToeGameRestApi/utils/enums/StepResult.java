@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public enum Result {
+public enum StepResult {
     WIN,
     DRAW,
     NEXT_MOVE;
