@@ -17,4 +17,7 @@ public interface GameplayService {
 
     Gameplay addPlayer(GameplayDto request);
 
+    void replay(Gameplay gameplay);
+
+    void replay(GameplayDto gameplayDto);
 }
