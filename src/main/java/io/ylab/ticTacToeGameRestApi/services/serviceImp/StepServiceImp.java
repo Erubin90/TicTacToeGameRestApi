@@ -6,6 +6,7 @@ import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.dto.Board;
 import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
+import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import io.ylab.ticTacToeGameRestApi.utils.enums.StepResult;
 import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 import io.ylab.ticTacToeGameRestApi.repositories.StepRepository;
@@ -40,11 +41,12 @@ public class StepServiceImp implements StepService {
         Check.isNull(row, "row");
 
         var gameplay = gameplayService.getGameplay(gameplayId);
+        var game = gameplay.getGame();
+        var gameStatus = gameStatusService.getLastGameStatus(game);
 
         //Проверка gameId
-        var game = gameplay.getGame();
         if (game.getId() != gameId.longValue())
-            throw new DontMachValueException("the passed values [playerId, gameplayId, gameId] do not match");
+            throw new DontMachValueException("The passed values [playerId, gameplayId, gameId] do not match");
         //Проверка playerId
         Player player = null;
         String playerSymbol = null;
@@ -58,7 +60,11 @@ public class StepServiceImp implements StepService {
             }
         }
         if (player == null)
-            throw new DontMachValueException("the passed values [playerId, gameplayId, gameId] do not match");
+            throw new DontMachValueException("The passed values [playerId, gameplayId, gameId] do not match");
+        //Проверка статуса игры
+        String status = gameStatus.getStatus();
+        if (status.equals(GameStatuses.GAME_OVER.getStatus()))
+            throw new DontMachValueException("status game over");
         //Проверка на заполненность таблицы
         var stepList = game.getSteps();
         int moveNumber = stepList.size() + 1;
@@ -71,8 +77,7 @@ public class StepServiceImp implements StepService {
             throw new InvalidExecutionException("Now is your opponent's move");
         //Проверка column и row
         if (column >= bordSize || row >= bordSize || column < 0 || row < 0)
-            throw new InvalidExecutionException("column or row invalid value");
-
+            throw new InvalidExecutionException("Column or row invalid value");
         //Создаем Step
         var step = new Step();
         step.setGame(game);
@@ -90,10 +95,18 @@ public class StepServiceImp implements StepService {
         //Сохраняем step в бд
         stepRepository.save(step);
 
-        //Создам GameResult
         if (stepResult == StepResult.WIN || stepResult == StepResult.DRAW) {
+            //Создам GameResult
             gameResultService.create(board.getWinPlayer().getPlayer());
             gameplayService.save(gameplay);
+
+            //Изменяем статус игры
+            gameStatusService.createGameStatus(game, GameStatuses.GAME_OVER);
+        }
+        else {
+            //Изменяем статус игры
+            if (status.equals(GameStatuses.START_GAME.getStatus()))
+                gameStatusService.createGameStatus(game, GameStatuses.BEING_PLAYED);
         }
         return board;
     }
