@@ -26,4 +26,9 @@ public class GameStatus {
 
     @Column(name = "status")
     private String status;
+
+    public GameStatus(Game game, String status) {
+        this.game = game;
+        this.status = status;
+    }
 }

@@ -5,6 +5,7 @@ import io.ylab.ticTacToeGameRestApi.entities.GameStatus;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.repositories.GameStatusRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
+import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,8 @@ public class GameStatusServiceImp implements GameStatusService {
     }
 
     @Override
-    public void save(GameStatus gameStatus) {
-        var game = gameStatus.getGame();
-        var newStatus = gameStatus.getStatus();
-        var lastStatus = getLastGameStatus(game).getStatus();
-        if (!newStatus.equals(lastStatus)) {
-            repository.save(gameStatus);
-        }
+    public void createGameStatus(Game game, GameStatuses status) {
+        var gameStatus = new GameStatus(game, status.getStatus());
+        repository.save(gameStatus);
     }
 }
