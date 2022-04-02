@@ -5,13 +5,13 @@ import io.ylab.ticTacToeGameRestApi.entities.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.dto.Board;
-import io.ylab.ticTacToeGameRestApi.dto.enums.Result;
+import io.ylab.ticTacToeGameRestApi.utils.enums.Result;
 import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 import io.ylab.ticTacToeGameRestApi.repositories.StepRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import io.ylab.ticTacToeGameRestApi.services.StepService;
-import io.ylab.ticTacToeGameRestApi.tools.Check;
+import io.ylab.ticTacToeGameRestApi.utils.Check;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -83,8 +83,7 @@ public class StepServiceImp implements StepService {
         //Проверяем является ли ход выигрышным
         int amountSymbolLine = game.getAmountSymbolLine();
         var board = new Board(bordSize, amountSymbolLine);
-        board.addAllStep(stepList);
-        var stepResult = board.getResult();
+        var stepResult = board.addAllStep(stepList);
 
         //Сохраняем step в бд
         stepRepository.save(step);

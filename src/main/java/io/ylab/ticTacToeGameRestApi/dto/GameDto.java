@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import io.ylab.ticTacToeGameRestApi.dto.enums.GameType;
+import io.ylab.ticTacToeGameRestApi.utils.enums.GameType;
 import io.ylab.ticTacToeGameRestApi.entities.Game;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.tools.Check;
+import io.ylab.ticTacToeGameRestApi.utils.Check;
 import lombok.*;
 
 import java.util.List;

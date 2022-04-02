@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.dto.simulation;
+package io.ylab.ticTacToeGameRestApi.utils;
 
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.dto.StepDto;

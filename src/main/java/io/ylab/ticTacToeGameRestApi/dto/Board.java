@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.ylab.ticTacToeGameRestApi.dto.enums.Result;
+import io.ylab.ticTacToeGameRestApi.utils.enums.Result;
 import io.ylab.ticTacToeGameRestApi.entities.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import lombok.Getter;
@@ -42,7 +42,7 @@ public class Board {
         return newMatrix;
     }
 
-    public void addStep(Step step) {
+    public Result addStep(Step step) {
         int row = step.getRow();
         int col = step.getColumn();
         char symbol = step.getSymbol().charAt(0);
@@ -54,12 +54,16 @@ public class Board {
         result = checkForVictory(step);
         if (result == Result.WIN)
             winPlayer = new PlayerDto(step.getPlayer());
+        return result;
     }
 
-    public void addAllStep(List<Step> steps) {
+    public Result addAllStep(List<Step> steps) {
         for (var step : steps) {
-            addStep(step);
+            result = addStep(step);
+            if (result == Result.WIN)
+                break;
         }
+        return result;
     }
 
     public Result checkForVictory(Step step) {

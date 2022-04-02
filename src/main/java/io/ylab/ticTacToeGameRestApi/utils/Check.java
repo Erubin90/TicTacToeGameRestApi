@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.tools;
+package io.ylab.ticTacToeGameRestApi.utils;
 
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 
