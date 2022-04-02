@@ -33,7 +33,7 @@ public class Gameplay {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_result_id")
-    private GameResult result;
+    private GameResult gameResult;
 
     public List<Player> getPlayers() {
         return gameplayPlayerList.stream()

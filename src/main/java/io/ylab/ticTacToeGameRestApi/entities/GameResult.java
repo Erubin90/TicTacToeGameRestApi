@@ -21,7 +21,7 @@ public class GameResult {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL,
-            mappedBy = "result")
+            mappedBy = "gameResult")
     private Gameplay gameplay;
 
     @ManyToOne(cascade = CascadeType.ALL)
