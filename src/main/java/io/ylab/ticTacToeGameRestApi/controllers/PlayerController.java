@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.controllers;
 
-import io.ylab.ticTacToeGameRestApi.objects.Response;
-import io.ylab.ticTacToeGameRestApi.objects.json.PlayerJson;
+import io.ylab.ticTacToeGameRestApi.dto.Response;
+import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,26 +13,23 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping(value = "/players/{id}")
-    public Response<PlayerJson> getPlayer(@PathVariable Long id) {
+    public Response<PlayerDto> getPlayer(@PathVariable Long id) {
         var player = playerService.getPlayer(id);
-        var playerJson = new PlayerJson(player);
-        var response = new Response<>(playerJson);
-        return response;
+        var playerJson = new PlayerDto(player);
+        return new Response<>(playerJson);
     }
 
     @PostMapping(value = "/players")
-    public Response<PlayerJson> createPlayer(@RequestBody PlayerJson player) {
+    public Response<PlayerDto> createPlayer(@RequestBody PlayerDto player) {
         var createPlayer = playerService.savePlayer(player.getPlayer());
         player.setPlayer(createPlayer);
-        var response = new Response<>(player);
-        return response;
+        return new Response<>(player);
     }
 
     @PutMapping(value = "/players")
-    public Response<PlayerJson> updatePlayer(@RequestBody PlayerJson player) {
+    public Response<PlayerDto> updatePlayer(@RequestBody PlayerDto player) {
         var updatePlayer = playerService.savePlayer(player.getPlayer());
         player.setPlayer(updatePlayer);
-        var response = new Response<>(player);
-        return response;
+        return new Response<>(player);
     }
 }

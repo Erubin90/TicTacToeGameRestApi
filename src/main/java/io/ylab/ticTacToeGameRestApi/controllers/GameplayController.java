@@ -1,8 +1,8 @@
 package io.ylab.ticTacToeGameRestApi.controllers;
 
-import io.ylab.ticTacToeGameRestApi.objects.Response;
-import io.ylab.ticTacToeGameRestApi.objects.json.GameplayJson;
-import io.ylab.ticTacToeGameRestApi.objects.simulation.SimulationGame;
+import io.ylab.ticTacToeGameRestApi.dto.Response;
+import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
+import io.ylab.ticTacToeGameRestApi.dto.simulation.SimulationGame;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,46 +17,41 @@ public class GameplayController {
     private final GameplayService service;
 
     @GetMapping("/gameplay/{id}")
-    public Response<GameplayJson> getGameplay(@PathVariable Long id) {
+    public Response<GameplayDto> getGameplay(@PathVariable Long id) {
         var gameplay = service.getGameplay(id);
-        var gameplayJson = new GameplayJson(gameplay);
-        var response = new Response<>(gameplayJson);
-        return response;
+        var gameplayJson = new GameplayDto(gameplay);
+        return new Response<>(gameplayJson);
     }
 
     @GetMapping("/gameplay")
-    public Response<List<GameplayJson>> getGameplayPlayer(@RequestParam(name = "player_id") Long playerId) {
+    public Response<List<GameplayDto>> getGameplayPlayer(@RequestParam(name = "player_id") Long playerId) {
         var gameplayList = service.getAllGameplayByPlayerId(playerId);
         var gameplayJsonList = gameplayList.stream()
-                .map(GameplayJson::new)
+                .map(GameplayDto::new)
                 .collect(Collectors.toList());
-        var response = new Response<>(gameplayJsonList);
-        return response;
+        return new Response<>(gameplayJsonList);
     }
 
     @GetMapping("/gameplay/{id}/replay")
     public Response<String> replayGameplayById(@PathVariable Long id) {
         var gameplay = service.getGameplay(id);
-        var gameplayJson = new GameplayJson(gameplay);
+        var gameplayJson = new GameplayDto(gameplay);
         SimulationGame.play(gameplayJson);
-        var response = new Response<>("The game has been successfully played");
-        return response;
+        return new Response<>("The game has been successfully played");
     }
 
     @PostMapping("/gameplay")
-    public Response<GameplayJson> createGameplay(@RequestBody GameplayJson gameplay) {
+    public Response<GameplayDto> createGameplay(@RequestBody GameplayDto gameplay) {
         var createGameplay = service.createGameplay(gameplay);
         gameplay.setGameplay(createGameplay);
-        var response = new Response<>(gameplay);
-        return response;
+        return new Response<>(gameplay);
     }
 
     @PutMapping("/gameplay")
-    public Response<GameplayJson> addPlayer(@RequestBody GameplayJson gameplay) {
+    public Response<GameplayDto> addPlayer(@RequestBody GameplayDto gameplay) {
         var newGameplay = service.addPlayer(gameplay);
         gameplay.setGameplay(newGameplay);
-        var response = new Response<>(gameplay);
-        return response;
+        return new Response<>(gameplay);
     }
 
 //    @PostMapping("/gameplay/replay")

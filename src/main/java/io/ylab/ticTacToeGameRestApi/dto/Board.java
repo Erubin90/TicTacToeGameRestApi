@@ -1,13 +1,12 @@
-package io.ylab.ticTacToeGameRestApi.objects;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.ylab.ticTacToeGameRestApi.dto.enums.Result;
 import io.ylab.ticTacToeGameRestApi.entities.Step;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.objects.enums.StepResult;
-import io.ylab.ticTacToeGameRestApi.objects.json.PlayerJson;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -25,11 +24,11 @@ public class Board {
 
     @Getter
     @JsonProperty("stepResult")
-    private StepResult stepResult;
+    private Result result;
 
     @Getter
     @JsonProperty("winPlayer")
-    private PlayerJson winPlayer;
+    private PlayerDto winPlayer;
 
     public Board(int boardSize, int amountSymbolLine) {
         this.matrix = new char[boardSize][boardSize];
@@ -52,9 +51,9 @@ public class Board {
             matrix[row][col] = symbol;
         else
             throw new InvalidValueException("column or row invalid value");
-        stepResult = checkForVictory(step);
-        if (stepResult == StepResult.WIN)
-            winPlayer = new PlayerJson(step.getPlayer());
+        result = checkForVictory(step);
+        if (result == Result.WIN)
+            winPlayer = new PlayerDto(step.getPlayer());
     }
 
     public void addAllStep(List<Step> steps) {
@@ -63,10 +62,10 @@ public class Board {
         }
     }
 
-    public StepResult checkForVictory(Step step) {
+    public Result checkForVictory(Step step) {
         int boardSize = matrix.length;
         char playerSymbol = step.getSymbol().charAt(0);
-        var resultGame = StepResult.NEXT_MOVE;
+        var resultGame = Result.NEXT_MOVE;
 
         int numberEmptySeats = boardSize * boardSize;
 
@@ -88,14 +87,14 @@ public class Board {
                 else
                     vertical = amountSymbolLine;
                 if (horizon == 0 || vertical == 0) {
-                    resultGame = StepResult.WIN;
+                    resultGame = Result.WIN;
                     return resultGame;
                 }
                 //Проверка на ничью
                 if (horizonSymbol != 0)
                     numberEmptySeats--;
                 if (numberEmptySeats == 0) {
-                    resultGame = StepResult.DRAW;
+                    resultGame = Result.DRAW;
                     return resultGame;
                 }
             }
@@ -111,7 +110,7 @@ public class Board {
                 leftDiagonal = diagonalsPoint[0];
                 rightDiagonal = diagonalsPoint[1];
                 if (leftDiagonal == 0 || rightDiagonal == 0) {
-                    resultGame = StepResult.WIN;
+                    resultGame = Result.WIN;
                     return resultGame;
                 }
             }
@@ -133,7 +132,7 @@ public class Board {
                         leftDiagonal = diagonalsPoint[0];
                         rightDiagonal = diagonalsPoint[1];
                         if (leftDiagonal == 0 || rightDiagonal == 0) {
-                            resultGame = StepResult.WIN;
+                            resultGame = Result.WIN;
                             return resultGame;
                         }
                     }

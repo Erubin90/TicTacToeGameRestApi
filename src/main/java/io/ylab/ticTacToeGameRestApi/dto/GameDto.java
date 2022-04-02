@@ -1,12 +1,12 @@
-package io.ylab.ticTacToeGameRestApi.objects.json;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import io.ylab.ticTacToeGameRestApi.dto.enums.GameType;
 import io.ylab.ticTacToeGameRestApi.entities.Game;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.objects.enums.GameType;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.tools.Check;
 import lombok.*;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
-public class GameJson {
+public class GameDto {
 
     @Setter
     @JsonProperty("id")
@@ -34,9 +34,9 @@ public class GameJson {
     private Integer typeGame;
 
     @JsonProperty("steps")
-    private List<StepJson> steps;
+    private List<StepDto> steps;
 
-    public GameJson(Game game) {
+    public GameDto(Game game) {
         this.setGame(game);
     }
 
@@ -48,7 +48,7 @@ public class GameJson {
         var gameStepList = game.getSteps();
         if (gameStepList != null) {
             this.steps = gameStepList.stream()
-                    .map(StepJson::new)
+                    .map(StepDto::new)
                     .collect(Collectors.toList());
         }
     }

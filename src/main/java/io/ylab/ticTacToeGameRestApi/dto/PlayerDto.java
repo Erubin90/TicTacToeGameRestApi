@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.objects.json;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id", "name", "symbol"})
-public class PlayerJson {
+public class PlayerDto {
 
     @JsonProperty("id")
     private Long id;
@@ -25,18 +25,18 @@ public class PlayerJson {
     @JsonProperty("symbol")
     private String symbol;
 
-    public PlayerJson(Long id, String name) {
+    public PlayerDto(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
     @JsonIgnore
-    public PlayerJson(Player player) {
+    public PlayerDto(Player player) {
         this.setPlayer(player);
     }
 
     @JsonIgnore
-    public PlayerJson(Player player, String symbol) {
+    public PlayerDto(Player player, String symbol) {
         this.setPlayer(player);
         this.symbol = symbol;
     }

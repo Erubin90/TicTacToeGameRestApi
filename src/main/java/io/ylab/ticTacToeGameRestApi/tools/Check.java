@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.tools;
 
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 
 public class Check {
 

@@ -6,9 +6,9 @@ import io.ylab.ticTacToeGameRestApi.repositories.GameplayPlayerRepository;
 import io.ylab.ticTacToeGameRestApi.tools.Check;
 import io.ylab.ticTacToeGameRestApi.entities.Game;
 import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidExecutionException;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.objects.json.GameplayJson;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
+import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
 import io.ylab.ticTacToeGameRestApi.repositories.GameplayRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;
@@ -48,7 +48,7 @@ public class GameplayServiceImp implements GameplayService {
     }
 
     @Override
-    public Gameplay createGameplay(GameplayJson request) {
+    public Gameplay createGameplay(GameplayDto request) {
         var playerId = request.getPlayerId();
         var gameRequest = request.getGame();
         var symbol = request.getSymbol();
@@ -89,7 +89,7 @@ public class GameplayServiceImp implements GameplayService {
     }
 
     @Override
-    public Gameplay addPlayer(GameplayJson request) {
+    public Gameplay addPlayer(GameplayDto request) {
         var playerId = request.getPlayerId();
         var gameplayId = request.getId();
         var requestSymbol = request.getSymbol();

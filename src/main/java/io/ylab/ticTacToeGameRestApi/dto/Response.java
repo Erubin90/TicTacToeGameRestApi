@@ -1,8 +1,8 @@
-package io.ylab.ticTacToeGameRestApi.objects;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.ylab.ticTacToeGameRestApi.objects.enums.ErrorType;
+import io.ylab.ticTacToeGameRestApi.dto.enums.ErrorType;
 import lombok.*;
 
 @Getter

@@ -1,13 +1,13 @@
-package io.ylab.ticTacToeGameRestApi.objects.simulation;
+package io.ylab.ticTacToeGameRestApi.dto.simulation;
 
-import io.ylab.ticTacToeGameRestApi.objects.json.GameplayJson;
-import io.ylab.ticTacToeGameRestApi.objects.json.PlayerJson;
+import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
+import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 
 import java.util.List;
 
 public class SimulationGame {
 
-    public static void play(GameplayJson gameplay) {
+    public static void play(GameplayDto gameplay) {
         var players = gameplay.getPlayers();
         var steps = gameplay.getGame().getSteps();
         int boardSize = gameplay.getGame().getBordSize();
@@ -37,7 +37,7 @@ public class SimulationGame {
             Message.printDrawPlayers();
     }
 
-    private static PlayerJson getPlayer(List<PlayerJson> players, long playerId) {
+    private static PlayerDto getPlayer(List<PlayerDto> players, long playerId) {
         var firstPlayer = players.get(0);
         var lastPlayer = players.get(1);
         return firstPlayer.getId() == playerId ? firstPlayer : lastPlayer;

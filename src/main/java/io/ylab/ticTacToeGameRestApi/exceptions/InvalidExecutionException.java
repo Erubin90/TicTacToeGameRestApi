@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.excrptions;
+package io.ylab.ticTacToeGameRestApi.exceptions;
 
 public class InvalidExecutionException extends RuntimeException{
 

@@ -1,7 +1,7 @@
-package io.ylab.ticTacToeGameRestApi.objects.simulation;
+package io.ylab.ticTacToeGameRestApi.dto.simulation;
 
-import io.ylab.ticTacToeGameRestApi.objects.json.PlayerJson;
-import io.ylab.ticTacToeGameRestApi.objects.json.StepJson;
+import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
+import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class Message {
 
     private final static String dash = "-> ";
 
-    public static void printStartGame(List<PlayerJson> playerList) {
+    public static void printStartGame(List<PlayerDto> playerList) {
         var player1 = playerList.get(0);
         var player2 = playerList.get(1);
         System.out.println("Игра началась");
@@ -29,7 +29,7 @@ public class Message {
         }
     }
 
-    public static void printBotMove(String name, StepJson step) {
+    public static void printBotMove(String name, StepDto step) {
         System.out.println(name + dash + (step.getRow() + 1) + (step.getColumn() + 1));
     }
 

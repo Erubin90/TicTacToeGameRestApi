@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.objects.json;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @JsonPropertyOrder({"gameplayId", "playerId", "players", "playerSymbol", "game", "gameResult"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GameplayJson {
+public class GameplayDto {
 
     @JsonProperty("gameplayId")
     private Long id;
@@ -25,18 +25,18 @@ public class GameplayJson {
     private Long playerId;
 
     @JsonProperty("players")
-    private List<PlayerJson> players;
+    private List<PlayerDto> players;
 
     @JsonProperty("playerSymbol")
     private String symbol;
 
     @JsonProperty("game")
-    private GameJson game;
+    private GameDto game;
 
     @JsonProperty("gameResult")
-    private GameResultJson gameResult;
+    private GameResultDto gameResult;
 
-    public GameplayJson(Gameplay gameplay) {
+    public GameplayDto(Gameplay gameplay) {
         this.setGameplay(gameplay);
     }
 
@@ -46,11 +46,11 @@ public class GameplayJson {
         if (gameplayPlayerList != null) {
             this.players = gameplayPlayerList
                     .stream()
-                    .map(x -> new PlayerJson(x.getPlayer(), x.getSymbol()))
+                    .map(x -> new PlayerDto(x.getPlayer(), x.getSymbol()))
                     .collect(Collectors.toList());
         }
-        this.game = new GameJson(gameplay.getGame());
-        this.gameResult = new GameResultJson(gameplay.getResult());
+        this.game = new GameDto(gameplay.getGame());
+        this.gameResult = new GameResultDto(gameplay.getResult());
         this.symbol = null;
     }
 }

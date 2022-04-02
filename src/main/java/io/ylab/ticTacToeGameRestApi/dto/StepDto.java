@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.objects.json;
+package io.ylab.ticTacToeGameRestApi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({"stepId", "playerId", "gameplayId", "gameId", "column", "row", "num", "symbol"})
-public class StepJson {
+public class StepDto {
 
     @JsonProperty("stepId")
     private Long id;
@@ -39,7 +39,7 @@ public class StepJson {
     @JsonProperty("symbol")
     private String symbol;
 
-    public StepJson(Step step) {
+    public StepDto(Step step) {
         this.id = step.getId();
         this.num = step.getNum();
         this.symbol = step.getSymbol();

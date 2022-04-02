@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.objects.enums;
+package io.ylab.ticTacToeGameRestApi.dto.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

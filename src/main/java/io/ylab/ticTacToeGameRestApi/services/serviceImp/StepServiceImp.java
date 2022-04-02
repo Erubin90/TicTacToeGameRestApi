@@ -2,11 +2,11 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.entities.Player;
 import io.ylab.ticTacToeGameRestApi.entities.Step;
-import io.ylab.ticTacToeGameRestApi.excrptions.DontMachValueException;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidExecutionException;
-import io.ylab.ticTacToeGameRestApi.objects.Board;
-import io.ylab.ticTacToeGameRestApi.objects.enums.StepResult;
-import io.ylab.ticTacToeGameRestApi.objects.json.StepJson;
+import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
+import io.ylab.ticTacToeGameRestApi.dto.Board;
+import io.ylab.ticTacToeGameRestApi.dto.enums.Result;
+import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 import io.ylab.ticTacToeGameRestApi.repositories.StepRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
@@ -24,7 +24,7 @@ public class StepServiceImp implements StepService {
     private final GameResultService gameResultService;
 
     @Override
-    public Board addStep(StepJson request) {
+    public Board addStep(StepDto request) {
         var gameplayId = request.getGameplayId();
         var gameId = request.getGameId();
         var playerId = request.getPlayerId();
@@ -84,13 +84,13 @@ public class StepServiceImp implements StepService {
         int amountSymbolLine = game.getAmountSymbolLine();
         var board = new Board(bordSize, amountSymbolLine);
         board.addAllStep(stepList);
-        var stepResult = board.getStepResult();
+        var stepResult = board.getResult();
 
         //Сохраняем step в бд
         stepRepository.save(step);
 
         //Создам GameResult
-        if (stepResult == StepResult.WIN || stepResult == StepResult.DRAW) {
+        if (stepResult == Result.WIN || stepResult == Result.DRAW) {
             gameResultService.create(board.getWinPlayer().getPlayer());
             gameplayService.save(gameplay);
         }

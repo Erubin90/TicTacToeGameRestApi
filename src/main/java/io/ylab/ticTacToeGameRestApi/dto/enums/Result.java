@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.objects.enums;
+package io.ylab.ticTacToeGameRestApi.dto.enums;
 
 import io.ylab.ticTacToeGameRestApi.entities.Player;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public enum StepResult {
+public enum Result {
     WIN,
     DRAW,
     NEXT_MOVE;

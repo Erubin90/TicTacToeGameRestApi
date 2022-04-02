@@ -1,10 +1,10 @@
 package io.ylab.ticTacToeGameRestApi.handlers;
 
-import io.ylab.ticTacToeGameRestApi.excrptions.DontMachValueException;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidExecutionException;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.objects.Response;
-import io.ylab.ticTacToeGameRestApi.objects.enums.ErrorType;
+import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
+import io.ylab.ticTacToeGameRestApi.dto.Response;
+import io.ylab.ticTacToeGameRestApi.dto.enums.ErrorType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
