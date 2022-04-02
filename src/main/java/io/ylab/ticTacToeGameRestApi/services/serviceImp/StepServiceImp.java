@@ -5,7 +5,8 @@ import io.ylab.ticTacToeGameRestApi.entities.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.dto.Board;
-import io.ylab.ticTacToeGameRestApi.utils.enums.Result;
+import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
+import io.ylab.ticTacToeGameRestApi.utils.enums.StepResult;
 import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 import io.ylab.ticTacToeGameRestApi.repositories.StepRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
@@ -22,6 +23,7 @@ public class StepServiceImp implements StepService {
     private final StepRepository stepRepository;
     private final GameplayService gameplayService;
     private final GameResultService gameResultService;
+    private final GameStatusService gameStatusService;
 
     @Override
     public Board addStep(StepDto request) {
@@ -89,7 +91,7 @@ public class StepServiceImp implements StepService {
         stepRepository.save(step);
 
         //Создам GameResult
-        if (stepResult == Result.WIN || stepResult == Result.DRAW) {
+        if (stepResult == StepResult.WIN || stepResult == StepResult.DRAW) {
             gameResultService.create(board.getWinPlayer().getPlayer());
             gameplayService.save(gameplay);
         }
