@@ -38,6 +38,10 @@ public class Game {
             cascade = CascadeType.ALL)
     private List<Step> steps;
 
+    @OneToMany(mappedBy = "game",
+            cascade = CascadeType.ALL)
+    private List<GameStatus> gameStatusList;
+
     public Game(Integer bordSize, Integer amountSymbolLine, Integer typeGame) {
         this.bordSize = bordSize;
         this.amountSymbolLine = amountSymbolLine;
