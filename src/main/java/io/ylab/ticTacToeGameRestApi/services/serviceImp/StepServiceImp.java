@@ -28,24 +28,19 @@ public class StepServiceImp implements StepService {
 
     @Override
     public Board addStep(StepDto request) {
-        var gameplayId = request.getGameplayId();
-        var gameId = request.getGameId();
-        var playerId = request.getPlayerId();
-        var column = request.getColumn();
-        var row = request.getRow();
-
-        Check.isNull(gameplayId, "gameplayId");
-        Check.isNull(gameId, "gameId");
-        Check.isNull(playerId, "gameId");
-        Check.isNull(column, "column");
-        Check.isNull(row, "row");
+        Check.stepDtoIsNull(request);
+        long gameplayId = request.getGameplayId();
+        long gameId = request.getGameId();
+        long playerId = request.getPlayerId();
+        int row = request.getRow();
+        int column = request.getColumn();
 
         var gameplay = gameplayService.getGameplay(gameplayId);
         var game = gameplay.getGame();
         var gameStatus = gameStatusService.getLastGameStatus(game);
 
         //Проверка gameId
-        if (game.getId() != gameId.longValue())
+        if (game.getId() != gameId)
             throw new DontMachValueException("The passed values [playerId, gameplayId, gameId] do not match");
         //Проверка playerId
         Player player = null;
@@ -53,7 +48,7 @@ public class StepServiceImp implements StepService {
         int playerNum = 0;
         for (var gameplayPlayer : gameplay.getGameplayPlayerList()) {
             var gamePlayer = gameplayPlayer.getPlayer();
-            if (gamePlayer.getId() == playerId.longValue()) {
+            if (gamePlayer.getId() == playerId) {
                 player = gamePlayer;
                 playerSymbol = gameplayPlayer.getSymbol();
                 playerNum = gameplayPlayer.getNum();
