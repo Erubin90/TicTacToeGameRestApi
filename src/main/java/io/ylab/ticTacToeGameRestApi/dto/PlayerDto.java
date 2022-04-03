@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.ylab.ticTacToeGameRestApi.entities.Player;
 import lombok.*;
 
@@ -17,14 +18,18 @@ import lombok.*;
 public class PlayerDto {
 
     @JsonProperty("id")
+    @JacksonXmlProperty(isAttribute = true, localName = "id")
     private Long id;
 
     @JsonProperty("name")
+    @JacksonXmlProperty(isAttribute = true, localName = "name")
     private String name;
 
     @JsonProperty("symbol")
+    @JacksonXmlProperty(isAttribute = true, localName = "symbol")
     private String symbol;
 
+    @JsonIgnore
     public PlayerDto(Long id, String name) {
         this.id = id;
         this.name = name;
