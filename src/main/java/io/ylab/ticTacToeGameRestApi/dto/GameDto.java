@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.ylab.ticTacToeGameRestApi.utils.enums.GameType;
 import io.ylab.ticTacToeGameRestApi.entities.Game;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
@@ -14,13 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
+@JsonPropertyOrder({"Step", "id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
 public class GameDto {
 
-    @Setter
     @JsonProperty("id")
     private Long id;
 
@@ -34,6 +36,8 @@ public class GameDto {
     private Integer typeGame;
 
     @JsonProperty("steps")
+    @JacksonXmlProperty(localName = "Step")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<StepDto> steps;
 
     public GameDto(Game game) {
