@@ -3,8 +3,10 @@ package io.ylab.ticTacToeGameRestApi.controllers;
 import io.ylab.ticTacToeGameRestApi.dto.Response;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
+import io.ylab.ticTacToeGameRestApi.utils.Convector;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,9 +54,10 @@ public class GameplayController {
         return new Response<>(gameplay);
     }
 
-//    @PostMapping("/gameplay/replay")
-//    public Response<String> replayGameplayByFile(@RequestBody MultipartFile multipartFile) {
-//        var response = new Response<>("The game has been successfully played");
-//        return response;
-//    }
+    @PostMapping("/gameplay/replay")
+    public Response<String> replayGameplayByFile(@RequestBody MultipartFile multipartFile) {
+        var gameplayDto = Convector.MultipartFileToGameplayDto(multipartFile);
+        service.replay(gameplayDto);
+        return new Response<>("The game has been successfully played");
+    }
 }
