@@ -1,5 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.utils;
 
+import io.ylab.ticTacToeGameRestApi.dto.StepDto;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 
 public class Check {
@@ -13,5 +14,13 @@ public class Check {
         isNull(string, nameParam);
         if (string.isEmpty())
             throw new InvalidValueException(nameParam + "is empty");
+    }
+
+    public static void stepDtoIsNull(StepDto stepDto) {
+        isNull(stepDto.getGameplayId(), "gameplayId");
+        isNull(stepDto.getGameId(), "gameId");
+        isNull(stepDto.getPlayerId(), "gameId");
+        isNull(stepDto.getColumn(), "column");
+        isNull(stepDto.getRow(), "row");
     }
 }
