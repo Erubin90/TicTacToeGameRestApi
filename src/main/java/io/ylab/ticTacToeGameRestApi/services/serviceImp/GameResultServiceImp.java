@@ -2,7 +2,7 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.model.GameResult;
 import io.ylab.ticTacToeGameRestApi.model.Player;
-import io.ylab.ticTacToeGameRestApi.repositories.GameResultRepository;
+import io.ylab.ticTacToeGameRestApi.repository.GameResultRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

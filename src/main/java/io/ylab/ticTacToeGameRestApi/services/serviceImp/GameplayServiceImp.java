@@ -2,7 +2,7 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.model.GameplayPlayer;
-import io.ylab.ticTacToeGameRestApi.repositories.GameplayPlayerRepository;
+import io.ylab.ticTacToeGameRestApi.repository.GameplayPlayerRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameService;
 import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
 import io.ylab.ticTacToeGameRestApi.utils.Check;
@@ -11,7 +11,7 @@ import io.ylab.ticTacToeGameRestApi.model.Gameplay;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
-import io.ylab.ticTacToeGameRestApi.repositories.GameplayRepository;
+import io.ylab.ticTacToeGameRestApi.repository.GameplayRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;
 import io.ylab.ticTacToeGameRestApi.utils.Message;

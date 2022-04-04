@@ -9,7 +9,7 @@ import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
 import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import io.ylab.ticTacToeGameRestApi.utils.enums.StepResult;
 import io.ylab.ticTacToeGameRestApi.dto.StepDto;
-import io.ylab.ticTacToeGameRestApi.repositories.StepRepository;
+import io.ylab.ticTacToeGameRestApi.repository.StepRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
 import io.ylab.ticTacToeGameRestApi.services.StepService;

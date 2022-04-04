@@ -2,7 +2,7 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.model.Player;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.repositories.PlayerRepository;
+import io.ylab.ticTacToeGameRestApi.repository.PlayerRepository;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
