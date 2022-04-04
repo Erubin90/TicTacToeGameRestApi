@@ -3,13 +3,9 @@ package io.ylab.ticTacToeGameRestApi.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.ylab.ticTacToeGameRestApi.utils.enums.GameType;
 import io.ylab.ticTacToeGameRestApi.model.Game;
-import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.utils.Check;
 import lombok.*;
 
 import java.util.List;
@@ -55,35 +51,5 @@ public class GameDto {
                     .map(StepDto::new)
                     .collect(Collectors.toList());
         }
-    }
-
-    @JsonSetter("bordSize")
-    public void setBordSize(Integer bordSize) {
-        Check.isNull(bordSize, "bordSize");
-        if (bordSize <= 10 && bordSize > 2) {
-            this.bordSize = bordSize;
-        }
-        else {
-            throw new InvalidValueException("invalid bordSize");
-        }
-    }
-
-    @JsonSetter("amountSymbolLine")
-    public void setAmountSymbolLine(Integer amountSymbolLine) {
-        Check.isNull(amountSymbolLine, "amountSymbolLine");
-        if (amountSymbolLine <= this.bordSize && amountSymbolLine > 2)
-            this.amountSymbolLine = amountSymbolLine;
-        else
-            throw new InvalidValueException("invalid amountSymbolLine");
-    }
-
-    @JsonSetter("typeGame")
-    public void setTypeGame(Integer typeGame) {
-        Check.isNull(typeGame, "typeGame");
-        var type = GameType.getTypeGame(typeGame);
-        if (type != GameType.UNKNOWN)
-            this.typeGame = typeGame;
-        else
-            throw new InvalidValueException("invalid typeGame");
     }
 }

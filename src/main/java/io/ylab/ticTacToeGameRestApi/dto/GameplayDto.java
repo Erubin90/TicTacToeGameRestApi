@@ -63,5 +63,6 @@ public class GameplayDto {
         this.game = new GameDto(gameplay.getGame());
         this.gameResult = new GameResultDto(gameplay.getGameResult());
         this.symbol = null;
+        this.playerId = null;
     }
 }

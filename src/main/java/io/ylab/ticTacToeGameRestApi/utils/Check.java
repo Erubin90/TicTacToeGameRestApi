@@ -13,7 +13,7 @@ public class Check {
     public static void isNullOrEmpty(String string, String nameParam) {
         isNull(string, nameParam);
         if (string.isEmpty())
-            throw new InvalidValueException(nameParam + "is empty");
+            throw new InvalidValueException(nameParam + " is empty");
     }
 
     public static void stepDtoIsNull(StepDto stepDto) {
