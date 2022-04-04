@@ -12,6 +12,10 @@ public class GameServiceImp implements GameService {
 
     private final GameRepository repository;
 
+    @Override
+    public Game get(Long id) {
+        return repository.getById(id);
+    }
 
     @Override
     public Game save(Game game) {

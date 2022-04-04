@@ -1,10 +1,11 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
+import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
+import io.ylab.ticTacToeGameRestApi.model.GameResult;
 import io.ylab.ticTacToeGameRestApi.model.GameplayPlayer;
 import io.ylab.ticTacToeGameRestApi.repository.GameplayPlayerRepository;
-import io.ylab.ticTacToeGameRestApi.services.GameService;
-import io.ylab.ticTacToeGameRestApi.services.GameStatusService;
+import io.ylab.ticTacToeGameRestApi.services.*;
 import io.ylab.ticTacToeGameRestApi.utils.Check;
 import io.ylab.ticTacToeGameRestApi.model.Game;
 import io.ylab.ticTacToeGameRestApi.model.Gameplay;
@@ -12,8 +13,6 @@ import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
 import io.ylab.ticTacToeGameRestApi.repository.GameplayRepository;
-import io.ylab.ticTacToeGameRestApi.services.GameplayService;
-import io.ylab.ticTacToeGameRestApi.services.PlayerService;
 import io.ylab.ticTacToeGameRestApi.utils.Message;
 import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import lombok.AllArgsConstructor;
@@ -28,10 +27,12 @@ import java.util.stream.Collectors;
 public class GameplayServiceImp implements GameplayService {
 
     private final GameplayRepository gameplayRepository;
+    private final GameplayPlayerRepository gameplayPlayerRepository;
+
     private final PlayerService playerService;
     private final GameService gameService;
+    private final GameResultService gameResultService;
     private final GameStatusService gameStatusService;
-    private final GameplayPlayerRepository gameplayPlayerRepository;
 
     @Override
     public Gameplay getGameplay(Long id) {
@@ -55,33 +56,46 @@ public class GameplayServiceImp implements GameplayService {
     @Override
     public Gameplay createGameplay(GameplayDto request) {
         var playerId = request.getPlayerId();
-        var gameRequest = request.getGame();
         var symbol = request.getSymbol();
-        var bordSize = gameRequest.getBordSize();
-        var amountSymbolLine = gameRequest.getAmountSymbolLine();
-        var typeGame = gameRequest.getTypeGame();
+        var gameRequest = request.getGame();
 
         Check.isNull(playerId, "playerId");
-        Check.isNull(gameRequest, "game");
         Check.isNullOrEmpty(symbol, "symbol");
-        Check.isNull(bordSize, "bordSize");
-        Check.isNull(amountSymbolLine, "amountSymbolLine");
-        Check.isNull(typeGame, "typeGame");
 
-        var player = playerService.getPlayer(playerId);
+        int bordSize = 3;
+        int amountSymbolLine = 3;
+        int typeGame = 1;
+
+        if (gameRequest != null){
+            if (gameRequest.getBordSize() != null)
+                bordSize = gameRequest.getBordSize();
+            if (gameRequest.getAmountSymbolLine() != null) {
+                if (gameRequest.getAmountSymbolLine() <= bordSize)
+                    amountSymbolLine = gameRequest.getAmountSymbolLine();
+                else
+                    throw new DontMachValueException("amountSymbolLine = " + gameRequest.getAmountSymbolLine() + " should not be larger than the bordSize = " + bordSize);
+            }
+            if (gameRequest.getTypeGame() != null)
+                typeGame = gameRequest.getTypeGame();
+        }
+
+        var player = playerService.get(playerId);
         var game = new Game(bordSize, amountSymbolLine, typeGame);
         var gameplayPlayer = new GameplayPlayer();
         gameplayPlayer.setPlayer(player);
         gameplayPlayer.setSymbol(symbol);
         gameplayPlayer.setNum(1);
 
-        var saveGame = this.gameService.save(game);
-        var gameplay = new Gameplay(saveGame);
-        var saveGameplay = save(gameplay);
-        gameplayPlayer.setGameplay(saveGameplay);
+        var createGame = gameService.save(game);
+        var createGameResult = gameResultService.create(null);
+        var gameplay = new Gameplay(createGame, createGameResult);
+        var createGameplay = save(gameplay);
+
+        gameplayPlayer.setGameplay(createGameplay);
         gameplayPlayerRepository.save(gameplayPlayer);
-        gameStatusService.createGameStatus(saveGame, GameStatuses.START_GAME);
-        return saveGameplay;
+
+        gameStatusService.createGameStatus(createGame, GameStatuses.START_GAME);
+        return createGameplay;
     }
 
     @Override
@@ -99,18 +113,16 @@ public class GameplayServiceImp implements GameplayService {
         Check.isNullOrEmpty(requestSymbol, "symbol");
 
         var gameplay = getGameplay(gameplayId);
-        var players = gameplay.getPlayers();
-
-        if (players.size() > 1)
+        var gameplayPlayerList = gameplay.getGameplayPlayerList();
+        if (gameplayPlayerList.size() > 1)
             throw new InvalidExecutionException("the game is full");
 
-        var gameplayPlayerList = gameplay.getGameplayPlayerList();
         var firstPlayerSymbol = gameplayPlayerList.get(0).getSymbol();
 
         if (requestSymbol.equals(firstPlayerSymbol))
             throw new InvalidExecutionException("the symbol matches another player");
 
-        var newPlayer = playerService.getPlayer(playerId);
+        var newPlayer = playerService.get(playerId);
         var newGameplayPlayer = new GameplayPlayer();
         newGameplayPlayer.setGameplay(gameplay);
         newGameplayPlayer.setPlayer(newPlayer);
