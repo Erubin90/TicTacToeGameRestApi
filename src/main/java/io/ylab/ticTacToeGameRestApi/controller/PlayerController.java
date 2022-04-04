@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.controllers;
+package io.ylab.ticTacToeGameRestApi.controller;
 
 import io.ylab.ticTacToeGameRestApi.dto.Response;
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
