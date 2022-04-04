@@ -27,7 +27,7 @@ public class Gameplay {
         mappedBy = "gameplay")
     private List<GameplayPlayer> gameplayPlayerList;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
     private Game game;
 
@@ -35,13 +35,8 @@ public class Gameplay {
     @JoinColumn(name = "game_result_id")
     private GameResult gameResult;
 
-    public List<Player> getPlayers() {
-        return gameplayPlayerList.stream()
-                .map(GameplayPlayer::getPlayer)
-                .collect(Collectors.toList());
-    }
-
-    public Gameplay(Game game) {
+    public Gameplay(Game game, GameResult gameResult) {
         this.game = game;
+        this.gameResult = gameResult;
     }
 }
