@@ -34,12 +34,12 @@ public class Game {
             mappedBy = "game")
     private Gameplay gameplay;
 
-    @OneToMany(mappedBy = "game",
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "game")
     private List<Step> steps;
 
-    @OneToMany(mappedBy = "game",
-            cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "game")
     private List<GameStatus> gameStatusList;
 
     public Game(Integer bordSize, Integer amountSymbolLine, Integer typeGame) {
