@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import io.ylab.ticTacToeGameRestApi.entities.Player;
+import io.ylab.ticTacToeGameRestApi.model.Player;
 import lombok.*;
 
 @Getter

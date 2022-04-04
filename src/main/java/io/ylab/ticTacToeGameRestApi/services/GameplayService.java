@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
-import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
+import io.ylab.ticTacToeGameRestApi.model.Gameplay;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
 
 import java.util.List;

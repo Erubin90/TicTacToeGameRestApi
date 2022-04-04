@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
-import io.ylab.ticTacToeGameRestApi.entities.Player;
+import io.ylab.ticTacToeGameRestApi.model.Player;
 
 public interface PlayerService {
 

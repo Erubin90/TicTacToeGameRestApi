@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.Game;
-import io.ylab.ticTacToeGameRestApi.entities.GameStatus;
+import io.ylab.ticTacToeGameRestApi.model.Game;
+import io.ylab.ticTacToeGameRestApi.model.GameStatus;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.repositories.GameStatusRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameStatusService;

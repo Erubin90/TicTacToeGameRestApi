@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.repositories;
 
-import io.ylab.ticTacToeGameRestApi.entities.GameplayPlayer;
+import io.ylab.ticTacToeGameRestApi.model.GameplayPlayer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

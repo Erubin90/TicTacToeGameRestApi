@@ -3,7 +3,7 @@ package io.ylab.ticTacToeGameRestApi.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.ylab.ticTacToeGameRestApi.entities.GameResult;
+import io.ylab.ticTacToeGameRestApi.model.GameResult;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

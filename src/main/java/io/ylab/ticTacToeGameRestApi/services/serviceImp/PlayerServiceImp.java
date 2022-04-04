@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.Player;
+import io.ylab.ticTacToeGameRestApi.model.Player;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.repositories.PlayerRepository;
 import io.ylab.ticTacToeGameRestApi.services.PlayerService;

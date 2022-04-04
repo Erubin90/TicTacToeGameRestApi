@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
+import io.ylab.ticTacToeGameRestApi.model.Gameplay;
 import lombok.*;
 
 import java.util.List;

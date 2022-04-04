@@ -1,4 +1,4 @@
-package io.ylab.ticTacToeGameRestApi.entities;
+package io.ylab.ticTacToeGameRestApi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

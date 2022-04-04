@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.Game;
+import io.ylab.ticTacToeGameRestApi.model.Game;
 import io.ylab.ticTacToeGameRestApi.repositories.GameRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameService;
 import lombok.AllArgsConstructor;

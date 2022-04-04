@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.Player;
-import io.ylab.ticTacToeGameRestApi.entities.Step;
+import io.ylab.ticTacToeGameRestApi.model.Player;
+import io.ylab.ticTacToeGameRestApi.model.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.dto.Board;

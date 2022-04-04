@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
-import io.ylab.ticTacToeGameRestApi.entities.Step;
+import io.ylab.ticTacToeGameRestApi.model.Step;
 import lombok.*;
 
 @Getter

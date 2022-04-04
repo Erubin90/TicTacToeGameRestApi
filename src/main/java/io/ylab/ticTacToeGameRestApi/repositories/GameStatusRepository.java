@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.repositories;
 
-import io.ylab.ticTacToeGameRestApi.entities.Game;
-import io.ylab.ticTacToeGameRestApi.entities.GameStatus;
+import io.ylab.ticTacToeGameRestApi.model.Game;
+import io.ylab.ticTacToeGameRestApi.model.GameStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

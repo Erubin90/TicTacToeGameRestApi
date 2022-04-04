@@ -1,7 +1,7 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
-import io.ylab.ticTacToeGameRestApi.entities.Game;
-import io.ylab.ticTacToeGameRestApi.entities.GameStatus;
+import io.ylab.ticTacToeGameRestApi.model.Game;
+import io.ylab.ticTacToeGameRestApi.model.GameStatus;
 import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 
 public interface GameStatusService {

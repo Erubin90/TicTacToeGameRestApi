@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.ylab.ticTacToeGameRestApi.utils.enums.StepResult;
-import io.ylab.ticTacToeGameRestApi.entities.Step;
+import io.ylab.ticTacToeGameRestApi.model.Step;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import lombok.Getter;
 

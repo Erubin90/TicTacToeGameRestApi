@@ -1,6 +1,6 @@
 package io.ylab.ticTacToeGameRestApi.utils.enums;
 
-import io.ylab.ticTacToeGameRestApi.entities.Player;
+import io.ylab.ticTacToeGameRestApi.model.Player;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
