@@ -30,8 +30,7 @@ public class PlayerDto {
     private String symbol;
 
     @JsonIgnore
-    public PlayerDto(Long id, String name) {
-        this.id = id;
+    public PlayerDto(String name) {
         this.name = name;
     }
 
