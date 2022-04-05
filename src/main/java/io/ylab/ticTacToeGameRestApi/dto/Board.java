@@ -20,7 +20,7 @@ public class Board {
     private char[][] matrix;
 
     @JsonIgnore
-    private final int amountSymbolLine;
+    private int amountSymbolLine;
 
     @Getter
     @JsonProperty("stepResult")
@@ -35,11 +35,13 @@ public class Board {
         this.amountSymbolLine = amountSymbolLine;
     }
 
-    public char[][] getMatrix() {
-        var newMatrix = new char[matrix.length][matrix.length];
-        for (int i = 0; i < matrix.length; i++)
-            newMatrix[i] = Arrays.copyOf(matrix[i], matrix.length);
-        return newMatrix;
+    public void printMatrix() {
+        for (var array : matrix) {
+            for (char c : array) {
+                System.out.print("|" + c);
+            }
+            System.out.println("|");
+        }
     }
 
     public StepResult addStep(Step step) {
@@ -72,11 +74,10 @@ public class Board {
         var resultGame = StepResult.NEXT_MOVE;
 
         int numberEmptySeats = boardSize * boardSize;
-
         //Проверка по вертикали и горизонтали
-        int horizon = amountSymbolLine;
-        int vertical = amountSymbolLine;
         for (int i = 0; i < boardSize; i++) {
+            int horizon = amountSymbolLine;
+            int vertical = amountSymbolLine;
             for (int j = 0; j < boardSize; j++) {
                 //проверка победы по горизонтали
                 char horizonSymbol = matrix[i][j];
@@ -132,6 +133,8 @@ public class Board {
                     for (int num = 0; num < amountSymbolLine; num++) {
                         int row = i + num;
                         int col = j + num;
+                        if (row == boardSize || col == boardSize)
+                            break;
                         int[] diagonalsPoint = checkDiagonals(boardSize, row, col, playerSymbol, leftDiagonal, rightDiagonal);
                         leftDiagonal = diagonalsPoint[0];
                         rightDiagonal = diagonalsPoint[1];
@@ -151,6 +154,7 @@ public class Board {
 
     private int[] checkDiagonals(int boardSize, int row, int col, char playerSymbol, int leftDiagonal, int rightDiagonal) {
         //проверка по левой диагонали
+        System.out.println(row + ", " + col);
         char leftDiagonalSymbol = matrix[row][col];
         if (leftDiagonalSymbol == playerSymbol)
             leftDiagonal--;

@@ -26,11 +26,11 @@ public class Step {
     @Column(name = "symbol")
     private String symbol;
 
-    @Column(name = "column")
-    private Integer column;
-
     @Column(name = "line")
     private Integer row;
+
+    @Column(name = "column")
+    private Integer column;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")

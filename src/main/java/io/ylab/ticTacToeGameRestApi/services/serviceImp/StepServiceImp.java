@@ -92,7 +92,7 @@ public class StepServiceImp implements StepService {
 
         if (stepResult == StepResult.WIN || stepResult == StepResult.DRAW) {
             //Создам GameResult
-            gameResultService.create(board.getWinPlayer().getPlayer());
+            gameResultService.create(player);
             gameplayService.save(gameplay);
 
             //Изменяем статус игры

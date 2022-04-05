@@ -2,13 +2,10 @@ package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
-import io.ylab.ticTacToeGameRestApi.model.GameResult;
-import io.ylab.ticTacToeGameRestApi.model.GameplayPlayer;
+import io.ylab.ticTacToeGameRestApi.model.*;
 import io.ylab.ticTacToeGameRestApi.repository.GameplayPlayerRepository;
 import io.ylab.ticTacToeGameRestApi.services.*;
 import io.ylab.ticTacToeGameRestApi.utils.Check;
-import io.ylab.ticTacToeGameRestApi.model.Game;
-import io.ylab.ticTacToeGameRestApi.model.Gameplay;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
@@ -82,6 +79,7 @@ public class GameplayServiceImp implements GameplayService {
 
         var player = playerService.get(playerId);
         var game = new Game(bordSize, amountSymbolLine, typeGame);
+        game.setSteps(new ArrayList<>());
         var gameplayPlayer = new GameplayPlayer();
         gameplayPlayer.setPlayer(player);
         gameplayPlayer.setSymbol(symbol);
@@ -93,11 +91,11 @@ public class GameplayServiceImp implements GameplayService {
         var createGameplay = save(gameplay);
 
         gameplayPlayer.setGameplay(createGameplay);
-        var s = gameplayPlayerRepository.saveAndFlush(gameplayPlayer);
+        gameplayPlayer = gameplayPlayerRepository.saveAndFlush(gameplayPlayer);
 
-        List<GameplayPlayer> a = new ArrayList<>();
-        a.add(s);
-        createGameplay.setGameplayPlayerList(a);
+        List<GameplayPlayer> gameplayPlayers = new ArrayList<>();
+        gameplayPlayers.add(gameplayPlayer);
+        createGameplay.setGameplayPlayerList(gameplayPlayers);
         createGameplay = gameplayRepository.save(createGameplay);
 
         gameStatusService.createGameStatus(createGame, GameStatuses.START_GAME);

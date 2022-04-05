@@ -52,12 +52,4 @@ public class PlayerDto {
             this.name = player.getName();
         }
     }
-
-    @JsonIgnore
-    public Player getPlayer() {
-        var player = new Player();
-        player.setId(this.id);
-        player.setName(this.name);
-        return player;
-    }
 }
