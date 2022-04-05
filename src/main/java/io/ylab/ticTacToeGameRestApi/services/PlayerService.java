@@ -1,10 +1,12 @@
 package io.ylab.ticTacToeGameRestApi.services;
 
-import io.ylab.ticTacToeGameRestApi.entities.Player;
+import io.ylab.ticTacToeGameRestApi.model.Player;
 
 public interface PlayerService {
 
-    Player getPlayer(Long id);
+    Player get(Long id);
 
-    Player savePlayer(Player player);
+    Player save(Player player);
+
+    Player update(Player player);
 }

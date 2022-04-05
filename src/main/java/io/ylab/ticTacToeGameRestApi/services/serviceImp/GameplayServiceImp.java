@@ -1,17 +1,17 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.GameplayPlayer;
-import io.ylab.ticTacToeGameRestApi.repositories.GameRepository;
-import io.ylab.ticTacToeGameRestApi.repositories.GameplayPlayerRepository;
-import io.ylab.ticTacToeGameRestApi.tools.Check;
-import io.ylab.ticTacToeGameRestApi.entities.Game;
-import io.ylab.ticTacToeGameRestApi.entities.Gameplay;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidExecutionException;
-import io.ylab.ticTacToeGameRestApi.excrptions.InvalidValueException;
-import io.ylab.ticTacToeGameRestApi.objects.json.GameplayJson;
-import io.ylab.ticTacToeGameRestApi.repositories.GameplayRepository;
-import io.ylab.ticTacToeGameRestApi.services.GameplayService;
-import io.ylab.ticTacToeGameRestApi.services.PlayerService;
+import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
+import io.ylab.ticTacToeGameRestApi.exceptions.DontMachValueException;
+import io.ylab.ticTacToeGameRestApi.model.*;
+import io.ylab.ticTacToeGameRestApi.repository.GameplayPlayerRepository;
+import io.ylab.ticTacToeGameRestApi.services.*;
+import io.ylab.ticTacToeGameRestApi.utils.Check;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidExecutionException;
+import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
+import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
+import io.ylab.ticTacToeGameRestApi.repository.GameplayRepository;
+import io.ylab.ticTacToeGameRestApi.utils.Message;
+import io.ylab.ticTacToeGameRestApi.utils.enums.GameStatuses;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +24,12 @@ import java.util.stream.Collectors;
 public class GameplayServiceImp implements GameplayService {
 
     private final GameplayRepository gameplayRepository;
-    private final PlayerService playerService;
-    private final GameRepository gameRepository;
     private final GameplayPlayerRepository gameplayPlayerRepository;
+
+    private final PlayerService playerService;
+    private final GameService gameService;
+    private final GameResultService gameResultService;
+    private final GameStatusService gameStatusService;
 
     @Override
     public Gameplay getGameplay(Long id) {
@@ -48,48 +51,64 @@ public class GameplayServiceImp implements GameplayService {
     }
 
     @Override
-    public Gameplay createGameplay(GameplayJson request) {
+    public Gameplay createGameplay(GameplayDto request) {
+        Check.isNull(request, "gameplay");
         var playerId = request.getPlayerId();
-        var gameRequest = request.getGame();
         var symbol = request.getSymbol();
-        var bordSize = gameRequest.getBordSize();
-        var amountSymbolLine = gameRequest.getAmountSymbolLine();
-        var typeGame = gameRequest.getTypeGame();
+        var gameRequest = request.getGame();
 
         Check.isNull(playerId, "playerId");
-        Check.isNull(gameRequest, "game");
         Check.isNullOrEmpty(symbol, "symbol");
-        Check.isNull(bordSize, "bordSize");
-        Check.isNull(amountSymbolLine, "amountSymbolLine");
-        Check.isNull(typeGame, "typeGame");
 
+        int bordSize = 3;
+        int amountSymbolLine = 3;
+        int typeGame = 1;
+
+        if (gameRequest != null){
+            if (gameRequest.getBordSize() != null)
+                bordSize = gameRequest.getBordSize();
+            if (gameRequest.getAmountSymbolLine() != null) {
+                if (gameRequest.getAmountSymbolLine() <= bordSize)
+                    amountSymbolLine = gameRequest.getAmountSymbolLine();
+                else
+                    throw new DontMachValueException("amountSymbolLine = " + gameRequest.getAmountSymbolLine() + " should not be larger than the bordSize = " + bordSize);
+            }
+            if (gameRequest.getTypeGame() != null)
+                typeGame = gameRequest.getTypeGame();
+        }
+
+        var player = playerService.get(playerId);
         var game = new Game(bordSize, amountSymbolLine, typeGame);
-        var saveGame = gameRepository.save(game);
-
-        var gameplay = new Gameplay();
-        gameplay.setGame(saveGame);
-        var saveGameplay = save(gameplay);
-
-        var player = playerService.getPlayer(playerId);
-
+        game.setSteps(new ArrayList<>());
         var gameplayPlayer = new GameplayPlayer();
         gameplayPlayer.setPlayer(player);
-        gameplayPlayer.setGameplay(saveGameplay);
         gameplayPlayer.setSymbol(symbol);
         gameplayPlayer.setNum(1);
-        gameplayPlayerRepository.save(gameplayPlayer);
 
-        return saveGameplay;
+        var createGame = gameService.save(game);
+        var createGameResult = gameResultService.create(null);
+        var gameplay = new Gameplay(createGame, createGameResult);
+        var createGameplay = save(gameplay);
+
+        gameplayPlayer.setGameplay(createGameplay);
+        gameplayPlayer = gameplayPlayerRepository.saveAndFlush(gameplayPlayer);
+
+        List<GameplayPlayer> gameplayPlayers = new ArrayList<>();
+        gameplayPlayers.add(gameplayPlayer);
+        createGameplay.setGameplayPlayerList(gameplayPlayers);
+        createGameplay = gameplayRepository.save(createGameplay);
+
+        gameStatusService.createGameStatus(createGame, GameStatuses.START_GAME);
+        return createGameplay;
     }
 
     @Override
     public Gameplay save(Gameplay gameplay) {
-        var saveGameplay = gameplayRepository.save(gameplay);
-        return saveGameplay;
+        return gameplayRepository.save(gameplay);
     }
 
     @Override
-    public Gameplay addPlayer(GameplayJson request) {
+    public Gameplay addPlayer(GameplayDto request) {
         var playerId = request.getPlayerId();
         var gameplayId = request.getId();
         var requestSymbol = request.getSymbol();
@@ -98,18 +117,16 @@ public class GameplayServiceImp implements GameplayService {
         Check.isNullOrEmpty(requestSymbol, "symbol");
 
         var gameplay = getGameplay(gameplayId);
-        var players = gameplay.getPlayers();
-
-        if (players.size() > 1)
+        var gameplayPlayerList = gameplay.getGameplayPlayerList();
+        if (gameplayPlayerList.size() > 1)
             throw new InvalidExecutionException("the game is full");
 
-        var gameplayPlayerList = gameplay.getGameplayPlayerList();
         var firstPlayerSymbol = gameplayPlayerList.get(0).getSymbol();
 
         if (requestSymbol.equals(firstPlayerSymbol))
             throw new InvalidExecutionException("the symbol matches another player");
 
-        var newPlayer = playerService.getPlayer(playerId);
+        var newPlayer = playerService.get(playerId);
         var newGameplayPlayer = new GameplayPlayer();
         newGameplayPlayer.setGameplay(gameplay);
         newGameplayPlayer.setPlayer(newPlayer);
@@ -120,5 +137,48 @@ public class GameplayServiceImp implements GameplayService {
         gameplayPlayerList.add(newGameplayPlayer);
         gameplay.setGameplayPlayerList(gameplayPlayerList);
         return gameplay;
+    }
+
+    @Override
+    public void replay(Gameplay gameplay) {
+        var gameplayDto = new GameplayDto(gameplay);
+        replay(gameplayDto);
+    }
+
+    @Override
+    public void replay(GameplayDto gameplay) {
+        var players = gameplay.getPlayers();
+        var steps = gameplay.getGame().getSteps();
+        int boardSize = gameplay.getGame().getBordSize();
+        var winPlayer = gameplay.getGameResult().getWinPlayerId();
+        var matrix = new char[boardSize][boardSize];
+        int countPattern = 30;
+
+        Message.printSeparator("-", countPattern);
+        Message.printStartGame(players);
+        Message.printSeparator("-", countPattern);
+        for (var step: steps) {
+            var player = getPlayer(players, step.getPlayerId());
+            Message.printBotMove(player.getName(), step);
+            int row = step.getRow();
+            int col = step.getColumn();
+            char sing = step.getSymbol().charAt(0);
+            matrix[row][col] = sing;
+            Message.printMatrix(matrix);
+            Message.printSeparator("-", countPattern);
+        }
+
+        if (winPlayer != null) {
+            String winPlayerName = getPlayer(players, winPlayer).getName();
+            Message.printWinPlayer(winPlayerName);
+        }
+        else
+            Message.printDrawPlayers();
+    }
+
+    private PlayerDto getPlayer(List<PlayerDto> players, long playerId) {
+        var firstPlayer = players.get(0);
+        var lastPlayer = players.get(1);
+        return firstPlayer.getId() == playerId ? firstPlayer : lastPlayer;
     }
 }

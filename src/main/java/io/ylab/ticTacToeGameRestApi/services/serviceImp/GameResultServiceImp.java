@@ -1,9 +1,10 @@
 package io.ylab.ticTacToeGameRestApi.services.serviceImp;
 
-import io.ylab.ticTacToeGameRestApi.entities.GameResult;
-import io.ylab.ticTacToeGameRestApi.entities.Player;
-import io.ylab.ticTacToeGameRestApi.repositories.GameResultRepository;
+import io.ylab.ticTacToeGameRestApi.model.GameResult;
+import io.ylab.ticTacToeGameRestApi.model.Player;
+import io.ylab.ticTacToeGameRestApi.repository.GameResultRepository;
 import io.ylab.ticTacToeGameRestApi.services.GameResultService;
+import io.ylab.ticTacToeGameRestApi.utils.Check;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,14 @@ public class GameResultServiceImp implements GameResultService {
 
     @Override
     public GameResult save(GameResult gameResult) {
-        var saveGameResult = repository.save(gameResult);
-        return saveGameResult;
+        Check.isNull(gameResult, "gameResult");
+        return repository.save(gameResult);
     }
 
     @Override
     public GameResult create(Player player) {
         var gameResult = new GameResult();
         gameResult.setWinPlayer(player);
-        var saveGameResult = save(gameResult);
-        return saveGameResult;
+        return save(gameResult);
     }
 }
