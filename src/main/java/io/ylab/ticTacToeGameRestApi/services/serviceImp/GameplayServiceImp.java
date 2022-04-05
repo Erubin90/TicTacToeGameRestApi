@@ -55,6 +55,7 @@ public class GameplayServiceImp implements GameplayService {
 
     @Override
     public Gameplay createGameplay(GameplayDto request) {
+        Check.isNull(request, "gameplay");
         var playerId = request.getPlayerId();
         var symbol = request.getSymbol();
         var gameRequest = request.getGame();
@@ -92,7 +93,12 @@ public class GameplayServiceImp implements GameplayService {
         var createGameplay = save(gameplay);
 
         gameplayPlayer.setGameplay(createGameplay);
-        gameplayPlayerRepository.save(gameplayPlayer);
+        var s = gameplayPlayerRepository.saveAndFlush(gameplayPlayer);
+
+        List<GameplayPlayer> a = new ArrayList<>();
+        a.add(s);
+        createGameplay.setGameplayPlayerList(a);
+        createGameplay = gameplayRepository.save(createGameplay);
 
         gameStatusService.createGameStatus(createGame, GameStatuses.START_GAME);
         return createGameplay;

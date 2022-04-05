@@ -3,6 +3,7 @@ package io.ylab.ticTacToeGameRestApi.controller;
 import io.ylab.ticTacToeGameRestApi.dto.Response;
 import io.ylab.ticTacToeGameRestApi.dto.GameplayDto;
 import io.ylab.ticTacToeGameRestApi.services.GameplayService;
+import io.ylab.ticTacToeGameRestApi.utils.Check;
 import io.ylab.ticTacToeGameRestApi.utils.Convector;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
