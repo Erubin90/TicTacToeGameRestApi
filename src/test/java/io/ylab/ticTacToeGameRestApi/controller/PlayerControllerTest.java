@@ -4,15 +4,14 @@ import io.ylab.ticTacToeGameRestApi.TicTacToeGameRestApiApplication;
 import io.ylab.ticTacToeGameRestApi.dto.PlayerDto;
 import io.ylab.ticTacToeGameRestApi.exceptions.InvalidValueException;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TicTacToeGameRestApiApplication.class})
+@ActiveProfiles("test")
 class PlayerControllerTest {
 
     @Autowired
