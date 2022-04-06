@@ -34,8 +34,7 @@ public class GameplayServiceImp implements GameplayService {
     @Override
     public Gameplay getGameplay(Long id) {
         var optional = gameplayRepository.findById(id);
-        var gameplay = optional.orElseThrow(() -> new InvalidValueException("invalid id"));
-        return gameplay;
+        return optional.orElseThrow(() -> new InvalidValueException("invalid id"));
     }
 
     @Override
@@ -150,7 +149,7 @@ public class GameplayServiceImp implements GameplayService {
         var players = gameplay.getPlayers();
         var steps = gameplay.getGame().getSteps();
         int boardSize = gameplay.getGame().getBordSize();
-        var winPlayer = gameplay.getGameResult().getWinPlayerId();
+        var winPlayer = gameplay.getGameResult().getWinPlayer();
         var matrix = new char[boardSize][boardSize];
         int countPattern = 30;
 
@@ -162,14 +161,14 @@ public class GameplayServiceImp implements GameplayService {
             Message.printBotMove(player.getName(), step);
             int row = step.getRow();
             int col = step.getColumn();
-            char sing = step.getSymbol().charAt(0);
+            char sing = player.getSymbol().charAt(0);
             matrix[row][col] = sing;
             Message.printMatrix(matrix);
             Message.printSeparator("-", countPattern);
         }
 
         if (winPlayer != null) {
-            String winPlayerName = getPlayer(players, winPlayer).getName();
+            String winPlayerName = winPlayer.getName();
             Message.printWinPlayer(winPlayerName);
         }
         else

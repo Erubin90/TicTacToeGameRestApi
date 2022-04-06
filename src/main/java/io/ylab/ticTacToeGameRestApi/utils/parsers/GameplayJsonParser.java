@@ -16,10 +16,7 @@ public class GameplayJsonParser implements Parser<GameplayDto> {
 
     @Override
     public GameplayDto read(String string) throws IOException {
-        int beginIndex = string.indexOf(":") + 1;
-        int endIndex = string.length() - 1;
-        String json = string.substring(beginIndex, endIndex);
-        return OBJECT_MAPPER.readValue(json, GameplayDto.class);
+        return OBJECT_MAPPER.readValue(string, GameplayDto.class);
     }
 
     @Override
