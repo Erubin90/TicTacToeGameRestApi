@@ -30,6 +30,11 @@ public class Convector {
         GameplayDto gameplayDto;
         try (var input = multipartFile.getInputStream()) {
             var string = new String(input.readAllBytes());
+            if (fileFormat == FileFormat.JSON) {
+                int startIndex = string.indexOf(":") + 1;
+                int endIndex = string.length() - 1;
+                string = string.substring(startIndex, endIndex);
+            }
             gameplayDto = parser.read(string);
         }
         catch (IOException e) {

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @ToString
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"Step", "id", "bordSize", "amountSymbolLine", "typeGame", "steps"})
+@JsonPropertyOrder({"Step", "step", "id", "bordSize", "amountSymbolLine", "typeGame"})
 public class GameDto {
 
     @JsonProperty("id")
@@ -31,7 +31,7 @@ public class GameDto {
     @JsonProperty("typeGame")
     private Integer typeGame;
 
-    @JsonProperty("steps")
+    @JsonProperty("step")
     @JacksonXmlProperty(localName = "Step")
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<StepDto> steps;

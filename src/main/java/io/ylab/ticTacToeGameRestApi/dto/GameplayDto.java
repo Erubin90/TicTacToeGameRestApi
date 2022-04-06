@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "GamePlay")
-@JsonPropertyOrder({"Player", "Game", "GameResult", "gameplayId", "playerId", "players", "playerSymbol", "game", "gameResult"})
+@JsonPropertyOrder({"Player", "Game", "GameResult", "gameplayId", "playerId", "player", "playerSymbol", "game", "gameResult"})
 public class GameplayDto {
 
     @JsonProperty("gameplayId")
@@ -29,7 +29,7 @@ public class GameplayDto {
     @JsonProperty("playerId")
     private Long playerId;
 
-    @JsonProperty("players")
+    @JsonProperty("player")
     @JacksonXmlProperty(localName = "Player")
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<PlayerDto> players;

@@ -22,9 +22,9 @@ public class GameResultDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
 
-    @JsonProperty("winPlayerId")
+    @JsonProperty("player")
     @JacksonXmlProperty(localName = "Player")
-    private Long winPlayerId;
+    private PlayerDto winPlayer;
 
     @JsonIgnore
     public GameResultDto(GameResult gameResult) {
@@ -32,7 +32,7 @@ public class GameResultDto {
             this.id = gameResult.getId();
             var winPlayer = gameResult.getWinPlayer();
             if (winPlayer != null)
-                this.winPlayerId = winPlayer.getId();
+                this.winPlayer = new PlayerDto(winPlayer);
         }
     }
 }
